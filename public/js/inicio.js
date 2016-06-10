@@ -1,5 +1,4 @@
 
-
 /*permite procedimientos ajax para laravel*/
 $.ajaxSetup({
     headers: {
@@ -23,6 +22,8 @@ $(function(){
     $('span[unselectable].k-dropdown-wrap.k-state-default').removeAttr('style');
     $('table .k-dropdown-wrap.k-state-default').css('display','none');
     handleAjaxModal();
+
+    $(".animacarga").hide();
 })
 
 
