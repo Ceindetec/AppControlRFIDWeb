@@ -1,21 +1,30 @@
-<form method="POST" action="/auth/login">
-    {!! csrf_field() !!}
 
-    <div>
-        Email
-        <input type="email" name="email" value="{{ old('email') }}">
-    </div>
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Login Control RFID</title>
 
-    <div>
-        Password
-        <input type="password" name="password" id="password">
-    </div>
+    {!!Html::style('css/login.css')!!}    
+</head>
 
-    <div>
-        <input type="checkbox" name="remember"> Remember Me
-    </div>
+<body>
 
-    <div>
-        <button type="submit">Login</button>
-    </div>
-</form>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+
+    <form method="POST" action="/auth/login">
+        {!! csrf_field() !!}
+        <h4> Login de usuario </h4>
+        <input class="name" type="text" placeholder="Ingrese documento" name="usu_username" required />
+        <input class="pw" type="password" placeholder="Ingrese contraseña" name="password" required />
+        <!--<li><a href="#">Forgot your password?</a></li>-->
+        <input class="button" type="submit" value="Login"/>
+    </form>
+    
+    
+    
+    
+    
+</body>
+</html>

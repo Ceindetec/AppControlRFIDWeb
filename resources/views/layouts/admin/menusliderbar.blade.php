@@ -4,7 +4,7 @@
 			<li><a><i class="fa fa-gear"></i> Configuración <span class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="{!!route('registromodulorfid')!!}">Registro modulo RFID</a></li>
-					<li><a href="index2.html">Registro de usuarios</a></li>
+					<li><a href="{!!route('registrofuncionariosfid')!!}">Registro de usuarios</a></li>
 				</ul>
 			</li>
 			<li><a><i class="fa fa-male"></i> Administración <span class="fa fa-chevron-down"></span></a>
