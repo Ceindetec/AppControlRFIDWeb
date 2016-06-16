@@ -18,12 +18,24 @@
 					{!!Form::open()!!}
 					
 					<div class="form-group">
-						{!!Form::label('Id modulo RFID (*)')!!}
-						{!!Form::text('mod_id',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+						{!!Form::label('Tipo de documento (*)')!!}
+						{!!Form::text('func_tdocumento_id',null,['class'=>'form-control', 'required', 'id'=>'tdocumento', 'style'=>'width:100%'])!!}
 					</div>
 					<div class="form-group">
-						{!!Form::label('Nombre oficina (*)')!!}
-						{!!Form::text('mod_nombre',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+						{!!Form::label('numero de documento (*)')!!}
+						{!!Form::text('func_documento',null,['class'=>'form-control', 'required', 'maxlength'=>'11'])!!}
+					</div>
+					<div class="form-group">
+						{!!Form::label('Nombres (*)')!!}
+						{!!Form::text('func_nombres',null,['class'=>'form-control', 'required', 'maxlength'=>'100'])!!}
+					</div>
+					<div class="form-group">
+						{!!Form::label('Apellidos (*)')!!}
+						{!!Form::text('func_apellidos',null,['class'=>'form-control', 'required', 'maxlength'=>'100'])!!}
+					</div>
+					<div class="form-group">
+						{!!Form::label('Cod. tarjeta RFID (*)')!!}
+						{!!Form::text('func_tarjeta',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
 					</div>
 					<div class='text-right'>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -59,6 +71,26 @@ var modal = $('#NombreDelModal');
 $(function(){
     validarFormulario();// validar forularios con kendo
     EventoFormularioModal(modal, onSuccess, oneError)
+
+    $("#tdocumento").kendoDropDownList({
+    	dataTextField: "tdoc_nombre",
+    	dataValueField: "tdoc_id",
+    	width:"100%",
+    	dataSource: {
+    		transport: {
+    			read: {
+    				dataType: "json",
+    				type:"POST",
+    				url: "{!!route('drodtdocumento')!!}",
+    			}
+    		}
+    	},
+    	optionLabel: {
+    		tdoc_nombre: "Seleccione...",
+    		tdoc_id: ""
+    	}
+    });
+
 });
 
 function validarFormulario(){
@@ -80,14 +112,24 @@ function onSuccess(result) {
 
 function oneError(result){
 	html = "<ul>";
-	if(result.mod_id){
-		for (var i = 0; i < result.mod_id.length; i++) {
-			html +="<li>"+result.mod_id[i]+"</li>";
+	if(result.func_documento){
+		for (var i = 0; i < result.func_documento.length; i++) {
+			html +="<li>"+result.func_documento[i]+"</li>";
 		};
 	}
-	if(result.mod_nombre){
-		for (var i = 0; i < result.mod_nombre.length; i++) {
-			html +="<li>"+result.mod_nombre[i]+"</li>";
+	if(result.func_nombres){
+		for (var i = 0; i < result.func_nombres.length; i++) {
+			html +="<li>"+result.func_nombres[i]+"</li>";
+		};
+	}
+	if(result.func_apellidos){
+		for (var i = 0; i < result.func_apellidos.length; i++) {
+			html +="<li>"+result.func_apellidos[i]+"</li>";
+		};
+	}
+	if(result.func_tarjeta){
+		for (var i = 0; i < result.func_tarjeta.length; i++) {
+			html +="<li>"+result.func_tarjeta[i]+"</li>";
 		};
 	}
 	html +="</ul>";
