@@ -11,6 +11,8 @@ use accesorfid\Http\Controllers\Controller;
 use Auth;
 use accesorfid\Http\Requests\insermoduloRQ;
 use accesorfid\Http\Requests\upmoduloRQ;
+use accesorfid\autorizacionModel;
+use DB;
 
 
 
@@ -91,12 +93,32 @@ class muduloRfidConroller extends Controller
         }
     }
 
-    public function peliminarmoduloRFID(Request $request){
-        $dato = moduloModel::find($request->input('mod_id'));
-        $dato->mod_estado = 2;
-        $dato->save();
-        $resul['estado']=true;
-        $resul['mensaje']='Modulo eliminado correctamente.';
+    public function peliminarmoduloRFID(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            $dato = moduloModel::find($request->input('mod_id'));
+            $dato->mod_estado = 2;
+            $dato->save();
+
+            $query = autorizacionModel::where('aut_modulo_id',$request->mod_id)->get();
+
+            foreach ($query as $qu) {
+                 $upd = autorizacionModel::find($qu->aut_id);
+                 $upd->aut_estado_id = 2;
+                 $upd->save();
+             }
+
+             $resul['estado']=true;
+             $resul['mensaje']='Modulo eliminado correctamente.';
+        }
+        catch(Exception $e)
+        {
+            $resul['estado']=false;
+            $resul['mensaje']='Ocurrio un error durante la eliminación del modulo';
+            DB::rollBack();
+        }
+        DB::commit();
         return json_encode($resul);
     }
 

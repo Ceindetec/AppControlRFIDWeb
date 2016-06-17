@@ -17,6 +17,8 @@
   {!!Html::style('vendors/bootstrap/dist/css/bootstrap.min.css')!!} 
   <!-- Font Awesome -->
   {!!Html::style('vendors/font-awesome/css/font-awesome.min.css')!!}
+ 
+  {!!Html::style('vendors/select2/dist/css/select2.min.css')!!}
   <!-- iCheck -->
   <!-- {!!Html::style('vendors/iCheck/skins/flat/green.css')!!}-->
   <!-- bootstrap-progressbar -->
@@ -161,6 +163,9 @@
 
 <!-- Datatables -->
 {!!Html::script('vendors/datatable/js/jquery.dataTables.js')!!}
+
+
+{!!Html::script('/vendors/select2/dist/js/select2.full.min.js')!!}
 
 <!-- Custom Theme Scripts -->
 {!!Html::script('build/js/custom.min.js')!!}

@@ -37,6 +37,22 @@ Route::post('registrarfuncionario', 'funcionarioRfidController@pregistrarfuncion
 Route::post('eliminarfuncionario', 'funcionarioRfidController@peliminarfuncionarioRFID')->name('eliminarfuncionario');
 
 
+
+/*
+control de acceso
+ */
+
+Route::get('controlaccc','ControlaccController@index')->name('controlaccc');
+Route::get('modaldetalleaccmod','ControlaccController@modaldetalleaccmod')->name('modaldetalleaccmod');
+Route::post('gridcontrolaccRFID','ControlaccController@gridcontrolaccRFID')->name('gridcontrolaccRFID');
+Route::post('gridDetalleaccmodRFID','ControlaccController@gridDetalleaccmodRFID')->name('gridDetalleaccmodRFID');
+Route::get('configurarmodulo/{id}/configurar','ControlaccController@configuraraccmoduloRFID');
+Route::post('gridnoautorizadosRFID','ControlaccController@gridnoautorizadosRFID')->name('gridnoautorizadosRFID');
+Route::post('gridautorizadosRFID','ControlaccController@gridautorizadosRFID')->name('gridautorizadosRFID');
+Route::post('agregarfuncionariomoduloRFID','ControlaccController@agregarfuncionariomoduloRFID')->name('agregarfuncionariomoduloRFID');
+Route::post('eliminarfuncionariomoduloRFID','ControlaccController@eliminarfuncionariomoduloRFID')->name('eliminarfuncionariomoduloRFID');
+
+
 Route::get('auth/login', 'Auth\AuthController@getLogin')->name('login');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
@@ -51,3 +67,6 @@ idiomas
 */
 
 Route::get('espanol', 'idiomaController@espanol')->name('espanol');
+
+
+Route::post('prueba', 'ControlaccController@prueba');

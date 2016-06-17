@@ -23,7 +23,7 @@
 		<a href="{!!route('registrarfuncionario')!!}" class="btn btn-success" data-modal="">Registrar nuevo funcionario</a>
 	</div>
 	<div class="panel-body">
-		<table id="MudulosRFID" class="table table-striped table-bordered no-footer" cellspacing="0" width="100%">
+		<table id="FuncionariosRFID" class="table table-striped table-bordered no-footer" cellspacing="0" width="100%">
 			<thead>
 				<tr>
 					<th>Id funcionario</th>
@@ -56,7 +56,7 @@ $(function(){
 	})*/
 
 
-table[0] = $('#MudulosRFID').DataTable( {
+table[0] = $('#FuncionariosRFID').DataTable( {
 	"language": {
 		"url": "{!!route('espanol')!!}"
 	},
