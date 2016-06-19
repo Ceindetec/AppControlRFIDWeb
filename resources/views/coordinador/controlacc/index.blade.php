@@ -20,7 +20,7 @@
 		<h3 class="panel-title"></h3>
 	</div>
 	<div class="panel-body">
-		<table id="Controlmodulos" class="table table-striped table-bordered no-footer" cellspacing="0" width="100%">
+		<table id="Controlmodulos" class="table table-striped table-bordered no-footer"  width="100%">
 			<thead>
 				<tr>
 					<th>id</th>
@@ -68,20 +68,21 @@ $(function(){
 		{
 			"targets": [2],
 			"data": null,
-			"width": "25%",
+			"width": "20%",
 			"defaultContent": "<a href={!!route('modaldetalleaccmod')!!} data-modal='modal-lg'  data-id='mod_id' table='0'; class='btn btn-success'>Ver detalle</a>" 
 		},
 		{
 			"targets": [3],
 			"data": null,
-			"width": "25%",
-			"defaultContent":  "<button class='btn btn-primary' onclick='redirecionar(event)'>Configurar</button>" 
+			"width": "20%",
+			"defaultContent":  "<button class='btn btn-primary' onclick='redirecionar(event)'>Configurar</button>"
 		}
 		],
 		"scrollX": true
 	} );
 
 });
+
 
 function redirecionar(event){
 	var element = event.target;

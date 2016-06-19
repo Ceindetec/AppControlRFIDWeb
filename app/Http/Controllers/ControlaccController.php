@@ -82,6 +82,7 @@ class ControlaccController extends Controller
 
     public function agregarfuncionariomoduloRFID(Request $request){
         $exite = 0;
+        $result="";
         try{
             $existe = autorizacionModel::where('aut_funcionario_id', $request->func_id)->where('aut_modulo_id', $request->mod_id)->where('aut_estado_id',2)->count();
             if($existe == 0){
@@ -92,12 +93,19 @@ class ControlaccController extends Controller
                 $datos->aut_tautorizacion_id = 1;
                 $datos->aut_estado_id=1;
                 $datos->save();
+                $query = fucionarioModel::find($request->func_id);
+                $query2 = moduloModel::find($request->mod_id);
             }else{
                 $query = autorizacionModel::select('aut_id')->where('aut_funcionario_id', $request->func_id)->where('aut_modulo_id', $request->mod_id)->where('aut_estado_id',2)->get();
                 $datos = autorizacionModel::find($query[0]->aut_id);
                 $datos->aut_estado_id=1;
                 $datos->save();
+                $query = fucionarioModel::find($request->func_id);
+                $query2 = moduloModel::find($request->mod_id);
             }
+            $result['tarjeta']= $query->func_tarjeta;
+            $result['modulo']= $query2->mod_codigo;
+            return $result;
         }catch(Exception $e){
 
         }
@@ -105,14 +113,26 @@ class ControlaccController extends Controller
 
 
     public function eliminarfuncionariomoduloRFID(Request $request){
+        $result="";
         $query = autorizacionModel::select('aut_id')->where('aut_funcionario_id', $request->func_id)->where('aut_modulo_id', $request->mod_id)->where('aut_estado_id',1)->get();
         //dd();
         $datos = autorizacionModel::find($query[0]->aut_id);
         $datos->aut_estado_id=2;
         $datos->save();
+
+        $query = fucionarioModel::find($request->func_id);
+        $query2 = moduloModel::find($request->mod_id);
+        $result['tarjeta']= $query->func_tarjeta;
+        $result['modulo']= $query2->mod_codigo;
+        return $result;
     }
 
-    public function prueba(Request $request){
-        dd($request->name);
+    public function actualizartodomoduloRFID(Request $request){
+        $query = autorizacionModel::select('aut_funcionario_id', 'aut_modulo_id')->where('aut_modulo_id',$request->modulo)->where('aut_estado_id',1)->get();
+        foreach($query as $qu){
+            $qu->getfuncionario->func_tarjeta;
+            $qu->getmodulo->mod_codigo;
+        }
+        return($query);
     }
 }

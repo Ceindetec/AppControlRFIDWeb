@@ -14,4 +14,9 @@ class autorizacionModel extends Model
 	{
 		return $this->belongsTo('accesorfid\fucionarioModel', 'aut_funcionario_id', 'func_id');
 	}
+
+	public function getmodulo()
+	{
+		return $this->belongsTo('accesorfid\moduloModel', 'aut_modulo_id', 'mod_id');
+	}
 }

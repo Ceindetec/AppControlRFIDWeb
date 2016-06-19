@@ -12,7 +12,13 @@
 */
 
 
-/*
+Route::get("/", function(){
+	return redirect('auth/login');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+
+	/*
 Administracion de registro de modulos
  */
 Route::get('registromodulorfid', 'muduloRfidConroller@index')->name('registromodulorfid');
@@ -51,14 +57,23 @@ Route::post('gridnoautorizadosRFID','ControlaccController@gridnoautorizadosRFID'
 Route::post('gridautorizadosRFID','ControlaccController@gridautorizadosRFID')->name('gridautorizadosRFID');
 Route::post('agregarfuncionariomoduloRFID','ControlaccController@agregarfuncionariomoduloRFID')->name('agregarfuncionariomoduloRFID');
 Route::post('eliminarfuncionariomoduloRFID','ControlaccController@eliminarfuncionariomoduloRFID')->name('eliminarfuncionariomoduloRFID');
+Route::post('actualizartodomoduloRFID','ControlaccController@actualizartodomoduloRFID')->name('actualizartodomoduloRFID');
+
+
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+
+});
+
+
+
 
 
 Route::get('auth/login', 'Auth\AuthController@getLogin')->name('login');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 
 
@@ -68,5 +83,3 @@ idiomas
 
 Route::get('espanol', 'idiomaController@espanol')->name('espanol');
 
-
-Route::post('prueba', 'ControlaccController@prueba');
