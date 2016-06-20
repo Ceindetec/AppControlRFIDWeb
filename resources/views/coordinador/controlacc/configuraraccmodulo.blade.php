@@ -18,7 +18,7 @@ div[role="main"] div[role="progressbar"]{
 @endsection
 @section('content')
 
-	<div class="row">
+<div class="row">
 	<div id="Conectado" class="progress-bar bg-green row" role="progressbar">
 		<span>Conección con el servidor establesidad <button id="btnactualizar" class="btn btn-primary" onclick="actualizar()">Actualizar modulo</button></span>
 	</div>
@@ -26,7 +26,7 @@ div[role="main"] div[role="progressbar"]{
 	<div id="desconectado" class="progress-bar bg-orange row" role="progressbar" >
 		Se a perdido la conección con el servidor <button id="btnconectar" class="btn btn-success">Conectar</button>
 	</div>
-	</div>
+</div>
 
 <div class="page-title">
 	<div class="title_left">
@@ -95,8 +95,8 @@ div[role="main"] div[role="progressbar"]{
 
 <script type="text/javascript">
 
-	var ws;
-	var datajsonws = {};
+var ws;
+var datajsonws = {};
 
 $(function(){
 
@@ -196,52 +196,46 @@ function agregar(event){
 }
 
 function actualizar(){
-		$.post("{!!route('actualizartodomoduloRFID')!!}",{"modulo":"{!! $query->mod_id !!}"},function(result){
-			datajsonws.dispositivo = "PC";
-			datajsonws.accion="UPD";
-			var array = [];
-			var predata = {};
-			predata.modulo = result[0].getmodulo.mod_codigo;
-			for(i=0;i<result.length;i++) {
-				array.push(result[i].getfuncionario.func_tarjeta)
-			}
-			predata.data = array;
-			predata = JSON.stringify(predata);
-			datajsonws.data = predata;
-			enviar = JSON.stringify(datajsonws);
-			ws.send(enviar);
-		})
-	}
+	$.post("{!!route('actualizartodomoduloRFID')!!}",{"modulo":"{!! $query->mod_id !!}"},function(result){
+		datajsonws.dispositivo = "PC";
+		datajsonws.accion="UPD";
+		var array = [];
+		var predata = {};
+		predata.modulo = result[0].getmodulo.mod_codigo;
+		for(i=0;i<result.length;i++) {
+			array.push(result[i].getfuncionario.func_tarjeta)
+		}
+		predata.data = array;
+		predata = JSON.stringify(predata);
+		datajsonws.data = predata;
+		enviar = JSON.stringify(datajsonws);
+		ws.send(enviar);
+	})
+}
 
 function WebSocketTest()
 {
 
-	    ws = new WebSocket("ws://192.168.0.20:8081");
+	ws = new WebSocket("ws://192.168.0.245:8081/streaming");
 
-		ws.onopen = function()
-		{
+	ws.onopen = function()
+	{
 			// Web Socket is connected, send data using send()
 			//ws.send("Message to send");
 			$('#desconectado').hide();
 			$('#Conectado').show();
 
 			datajsonws.dispositivo = "PC";
-			datajsonws.accion="presentacion";
-			datajsonws.data="";
-			enviar = JSON.stringify(datajsonws);
-			ws.send(enviar);
+				datajsonws.accion="permiso";
+				datajsonws.data="";
+				enviar = JSON.stringify(datajsonws);
+				ws.send(enviar);
 
 		};
 
 		ws.onmessage = function (evt)
 		{
 			var received_msg = evt.data;
-
-			alert(evt.data);
-
-			if(received_msg){
-				enviarmen = true;
-			}
 
 		};
 
@@ -250,19 +244,19 @@ function WebSocketTest()
 			// websocket is closed.
 			$('#desconectado').show();
 			$('#Conectado').hide();
-			alert("Connection is closed...");
+			//alert("Connection is closed...");
 		};
 
-	ws.error = function()
-	{
+		ws.error = function()
+		{
 		// websocket is closed.
 		$('#desconectado').show();
 		$('#Conectado').hide();
-		alert("error.");
+		//alert("error.");
 	};
 
 }
-	
+
 
 </script>
 

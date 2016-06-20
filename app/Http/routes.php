@@ -16,31 +16,40 @@ Route::get("/", function(){
 	return redirect('auth/login');
 });
 
+
+
 Route::group(['middleware' => 'auth'], function () {
 
-	/*
-Administracion de registro de modulos
- */
-Route::get('registromodulorfid', 'muduloRfidConroller@index')->name('registromodulorfid');
-Route::post('gridmodulosRFID', 'muduloRfidConroller@gridmodulosRFID')->name('gridmodulosRFID');
-Route::get('modaleditarmodulo', 'muduloRfidConroller@modaleditarmoduloRFID')->name('modaleditarmodulo');
-Route::post('modaleditarmodulo', 'muduloRfidConroller@pmodaleditarmoduloRFID');
-Route::get('registrarmodulo', 'muduloRfidConroller@registrarmoduloRFID')->name('registrarmodulo');
-Route::post('registrarmodulo', 'muduloRfidConroller@pregistrarmoduloRFID')->name('registrarmodulo');
-Route::post('eliminarmodulo', 'muduloRfidConroller@peliminarmoduloRFID')->name('eliminarmodulo');
+	
+	Route::group(['middleware' => 'role'], function () {
+			/*
+		Administracion de registro de modulos
+		 */
+		Route::get('registromodulorfid', 'muduloRfidConroller@index')->name('registromodulorfid');
+		Route::post('gridmodulosRFID', 'muduloRfidConroller@gridmodulosRFID')->name('gridmodulosRFID');
+		Route::get('modaleditarmodulo', 'muduloRfidConroller@modaleditarmoduloRFID')->name('modaleditarmodulo');
+		Route::post('modaleditarmodulo', 'muduloRfidConroller@pmodaleditarmoduloRFID');
+		Route::get('registrarmodulo', 'muduloRfidConroller@registrarmoduloRFID')->name('registrarmodulo');
+		Route::post('registrarmodulo', 'muduloRfidConroller@pregistrarmoduloRFID')->name('registrarmodulo');
+		Route::post('eliminarmodulo', 'muduloRfidConroller@peliminarmoduloRFID')->name('eliminarmodulo');
 
-/*
-Administracion de registro de funcionarios
- */
+		/*
+		Administracion de registro de funcionarios
+		 */
 
-Route::get('registrofuncionariosfid', 'funcionarioRfidController@index')->name('registrofuncionariosfid');
-Route::post('gridfuncionariosRFID', 'funcionarioRfidController@gridfuncionariosRFID')->name('gridfuncionariosRFID');
-Route::get('modaleditarfuncionario', 'funcionarioRfidController@modaleditarfuncionarioRFID')->name('modaleditarfuncionario');
-Route::post('drodtdocumento', 'funcionarioRfidController@drodtdocumentoRFID')->name('drodtdocumento');
-Route::post('modaleditarfuncionario', 'funcionarioRfidController@pmodaleditarfuncionarioRFID');
-Route::get('registrarfuncionario', 'funcionarioRfidController@registrarfuncionarioRFID')->name('registrarfuncionario');
-Route::post('registrarfuncionario', 'funcionarioRfidController@pregistrarfuncionarioRFID');
-Route::post('eliminarfuncionario', 'funcionarioRfidController@peliminarfuncionarioRFID')->name('eliminarfuncionario');
+		Route::get('registrofuncionariosfid', 'funcionarioRfidController@index')->name('registrofuncionariosfid');
+		Route::post('gridfuncionariosRFID', 'funcionarioRfidController@gridfuncionariosRFID')->name('gridfuncionariosRFID');
+		Route::get('modaleditarfuncionario', 'funcionarioRfidController@modaleditarfuncionarioRFID')->name('modaleditarfuncionario');
+		Route::post('drodtdocumento', 'funcionarioRfidController@drodtdocumentoRFID')->name('drodtdocumento');
+		Route::post('modaleditarfuncionario', 'funcionarioRfidController@pmodaleditarfuncionarioRFID');
+		Route::get('registrarfuncionario', 'funcionarioRfidController@registrarfuncionarioRFID')->name('registrarfuncionario');
+		Route::post('registrarfuncionario', 'funcionarioRfidController@pregistrarfuncionarioRFID');
+		Route::post('eliminarfuncionario', 'funcionarioRfidController@peliminarfuncionarioRFID')->name('eliminarfuncionario');
+
+		
+
+
+	});
 
 
 
@@ -60,9 +69,9 @@ Route::post('eliminarfuncionariomoduloRFID','ControlaccController@eliminarfuncio
 Route::post('actualizartodomoduloRFID','ControlaccController@actualizartodomoduloRFID')->name('actualizartodomoduloRFID');
 
 
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
-
+Route::get("home", function(){
+	return redirect('registromodulorfid');
+});
 
 });
 
@@ -83,3 +92,5 @@ idiomas
 
 Route::get('espanol', 'idiomaController@espanol')->name('espanol');
 
+Route::get('auth/register', 'Auth\AuthController@getRegister')->name('register');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
