@@ -27,6 +27,7 @@
 			<thead>
 				<tr>
 					<th>Id modulo</th>
+					<th>Codigo</th>
 					<th>Nombre oficina</th>
 					<th>Usuario</th>
 					<th>Editar</th>
@@ -61,15 +62,20 @@ table[0] = $('#MudulosRFID').DataTable( {
 		url: "{!!route('gridmodulosRFID')!!}",
 		"type": "POST"
 	},
-	columns: [ { data: 'mod_id' }, { data: 'mod_nombre' }, { data: 'user.usu_username' }],
+	columns: [ { data: 'mod_id' }, { data: 'mod_codigo' }, { data: 'mod_nombre' }, { data: 'user.usu_username' }],
 	"columnDefs": [
+		{
+			"targets": [0],
+			"visible": false,
+			"searchable": false
+		},
 	{
-		"targets": [3],
+		"targets": [4],
 		"data": null,
 		"defaultContent": "<a href={!!route('modaleditarmodulo')!!} data-modal=''  data-id='mod_id' table='0'; class='btn btn-primary'>Editar</a>" 
 	},
 	{
-		"targets": [4],
+		"targets": [5],
 		"data": null,
 		"defaultContent":  "<button class='btn btn-danger' onclick='eliminar(event)'>Eliminar</button>" 
 	}

@@ -11,6 +11,8 @@ use accesorfid\fucionarioModel;
 use accesorfid\tipodocumentoModel;
 use accesorfid\Http\Requests\updfuncionarioRQ;
 use accesorfid\Http\Requests\insfuncionarioRQ;
+use accesorfid\autorizacionModel;
+use DB;
 
 class funcionarioRfidController extends Controller
 {
@@ -63,7 +65,7 @@ public function pmodaleditarfuncionarioRFID(updfuncionarioRQ $request){
             }
         }
         if($dato->func_tarjeta != $request->func_tarjeta){
-            $existetar = fucionarioModel::where('func_tarjeta', $request->func_tarjeta);
+            $existetar = fucionarioModel::where('func_tarjeta', $request->func_tarjeta)->count();
         }
         if($existedo==0){
             if($existetar==0){
@@ -114,13 +116,35 @@ public function pregistrarfuncionarioRFID(insfuncionarioRQ $request){
 
 }
 
-public function peliminarfuncionarioRFID(Request $request){
-    $dato = fucionarioModel::find($request->func_id);
-    $dato->func_estado_id = 2;
-    $dato->save();
-    $resul['estado']=true;
-    $resul['mensaje']='Funcionario eliminado correctamente.';
-    return json_encode($resul);
+public function peliminarfuncionarioRFID(Request $request)
+{
+    DB::beginTransaction();
+    try
+    {
+
+        $dato = fucionarioModel::find($request->func_id);
+        $dato->func_estado_id = 2;
+        $dato->save();
+
+        $query = autorizacionModel::where('aut_funcionario_id',$request->func_id)->get();
+
+        foreach ($query as $qu) {
+           $upd = autorizacionModel::find($qu->aut_id);
+           $upd->aut_estado_id = 2;
+           $upd->save();
+       }
+       $resul['estado']=true;
+       $resul['mensaje']='Funcionario eliminado correctamente.';
+   }
+   catch(Exception $e)
+   {
+        $resul['estado']=false;
+        $resul['mensaje']='Ocurrio un error durante la eliminación del funcionario';
+        DB::rollBack();
+    }
+
+DB::commit();
+return json_encode($resul);
 }
 
 

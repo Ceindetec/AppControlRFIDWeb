@@ -29,5 +29,6 @@ class Kernel extends HttpKernel
         'auth' => \accesorfid\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \accesorfid\Http\Middleware\RedirectIfAuthenticated::class,
+        'role' => \accesorfid\Http\Middleware\RoleMiddleware::class,
     ];
 }

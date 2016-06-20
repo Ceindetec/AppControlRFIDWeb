@@ -5,10 +5,10 @@
   <h4> Editar modulo RFID</h4>
 </div>
 <div class="modal-body">
-  <input type="hidden" name="anterior" value="{!!$data->mod_id!!}">
+  <input type="hidden" name="mod_id" value="{!!$data->mod_id!!}">
   <div class="form-group">
-    {!!Form::label('Id modulo RFID (*)')!!}
-    {!!Form::text('mod_id',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+    {!!Form::label('codigo modulo RFID (*)')!!}
+    {!!Form::text('mod_codigo',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
   </div>
   <div class="form-group">
     {!!Form::label('Nombre oficina (*)')!!}
