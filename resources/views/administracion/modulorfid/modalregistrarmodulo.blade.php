@@ -18,8 +18,8 @@
 					{!!Form::open()!!}
 					
 					<div class="form-group">
-						{!!Form::label('Id modulo RFID (*)')!!}
-						{!!Form::text('mod_id',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+						{!!Form::label('codigo modulo RFID (*)')!!}
+						{!!Form::text('mod_codigo',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
 					</div>
 					<div class="form-group">
 						{!!Form::label('Nombre oficina (*)')!!}

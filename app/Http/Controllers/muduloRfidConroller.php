@@ -11,6 +11,8 @@ use accesorfid\Http\Controllers\Controller;
 use Auth;
 use accesorfid\Http\Requests\insermoduloRQ;
 use accesorfid\Http\Requests\upmoduloRQ;
+use accesorfid\autorizacionModel;
+use DB;
 
 
 
@@ -33,7 +35,7 @@ class muduloRfidConroller extends Controller
      */
     public function modaleditarmoduloRFID(Request $request){
         $id = $request->input('id');
-        $query = moduloModel::select('mod_id','mod_nombre')->where('mod_id', $id)->get();
+        $query = moduloModel::select('mod_id','mod_codigo','mod_nombre')->where('mod_id', $id)->get();
         $data = $query[0];
         return view('administracion.modulorfid.modaleditarmodulo', compact('data'));
     }
@@ -41,16 +43,15 @@ class muduloRfidConroller extends Controller
 
     public function pmodaleditarmoduloRFID(upmoduloRQ $request){
         $resul;
+        $existe = 0;
         try{
-            $datos = moduloModel::find($request->input('anterior'));
-            $anterior = $request->input('anterior');
-            $nuevo = $request->input('mod_id');
-            $existe = 0;
-            if($anterior != $nuevo){
-                $existe = moduloModel::where('mod_id',$nuevo)->count();
-            }
+            $datos = moduloModel::find($request->mod_id);
+            $nuevo = $request->input('mod_codigo');
+
+            $existe = moduloModel::where('mod_codigo',$nuevo)->count();
+
             if($existe == 0){
-                $datos->mod_id = $request->input('mod_id');
+                $datos->mod_codigo = $request->mod_codigo;
                 $datos->mod_nombre = $request->input('mod_nombre');
                 $datos->mod_usuario_id = Auth::User()->usu_id;
                 $datos->save();
@@ -58,7 +59,7 @@ class muduloRfidConroller extends Controller
                 $resul['mensaje']='Actualizado modulo correctamente.';
             }else{
                 $resul['estado']=false;
-                $resul['mensaje']='Esta id modulo ya ha sido registrado.';
+                $resul['mensaje']='Este codigo ya ha sido registrado.';
             }
             return json_encode($resul);
         }
@@ -75,10 +76,10 @@ class muduloRfidConroller extends Controller
         $resul;
         try{
             $datos = new moduloModel();
-            $datos->mod_id = $request->input('mod_id');
+            $datos->mod_codigo = $request->input('mod_codigo');
             $datos->mod_nombre = $request->input('mod_nombre');
             $datos->mod_usuario_id = Auth::User()->usu_id;
-            $datos->mod_fecha = date('yyyy-MM-dd');
+            $datos->mod_fecha = date('y-m-d');
             $datos->save();
             $resul['estado']=true;
             $resul['mensaje']='Registrado modulo correctamente.';
@@ -91,12 +92,32 @@ class muduloRfidConroller extends Controller
         }
     }
 
-    public function peliminarmoduloRFID(Request $request){
-        $dato = moduloModel::find($request->input('mod_id'));
-        $dato->mod_estado = 2;
-        $dato->save();
-        $resul['estado']=true;
-        $resul['mensaje']='Modulo eliminado correctamente.';
+    public function peliminarmoduloRFID(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            $dato = moduloModel::find($request->input('mod_id'));
+            $dato->mod_estado = 2;
+            $dato->save();
+
+            $query = autorizacionModel::where('aut_modulo_id',$request->mod_id)->get();
+
+            foreach ($query as $qu) {
+                 $upd = autorizacionModel::find($qu->aut_id);
+                 $upd->aut_estado_id = 2;
+                 $upd->save();
+             }
+
+             $resul['estado']=true;
+             $resul['mensaje']='Modulo eliminado correctamente.';
+        }
+        catch(Exception $e)
+        {
+            $resul['estado']=false;
+            $resul['mensaje']='Ocurrio un error durante la eliminación del modulo';
+            DB::rollBack();
+        }
+        DB::commit();
         return json_encode($resul);
     }
 
