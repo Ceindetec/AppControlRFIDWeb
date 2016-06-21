@@ -21,6 +21,9 @@ class ControlaccController extends Controller
      */
     
     private $modulo;
+
+    private $claveMochila = array(335916, 428891, 866985, 2139945, 4385521, 8713045, 17162809, 34033702);
+
     public function index()
     {
         return view('coordinador.controlacc.index');
@@ -135,4 +138,124 @@ class ControlaccController extends Controller
         }
         return($query);
     }
+
+
+
+    private function encrypt($mensaje){
+
+        $mensajeOriginal = trim(utf8_decode($mensaje));
+        $mensajeFraccionado = str_split($mensajeOriginal);
+        for ($i = 0; $i < count($mensajeFraccionado); $i++) {
+
+            /*EXPLAIN ####################################################################################################*/
+
+            //Cadena para la explicacion del fraccinamiento del mensaje
+            $mensajeFraccionadoExplain = $mensajeFraccionadoExplain . " " . $mensajeFraccionado[$i];
+
+            //Cadena para la explicacion de la conversion a ASCII del mensaje
+            $mensajeAsciiExplain = $mensajeAsciiExplain . " " . ord($mensajeFraccionado[$i]);
+
+            //Cadena para la explicacion de la conversion a ASCII del mensaje
+            $mensajeBinarioExplain = $mensajeBinarioExplain . " " . decbin(ord($mensajeFraccionado[$i]));
+
+            //Cadena para la explicacion de la conversion a ASCII del mensaje
+            $mensajeBinarioCompletoExplain = $mensajeBinarioCompletoExplain . " " . substr("00000000", 0, 8 - strlen(decbin(ord($mensajeFraccionado[$i])))) . decbin(ord($mensajeFraccionado[$i]));
+
+            /*FIN EXPLAIN ################################################################################################*/
+
+            $caracterBinarioCompleto = substr("00000000", 0, 8 - strlen(decbin(ord($mensajeFraccionado[$i])))) . decbin(ord($mensajeFraccionado[$i]));
+
+            //Division de la cadena de 8 bits para el procesamiento de mochilas
+            $auxiliarCaracterBinarioCompleto = str_split($caracterBinarioCompleto);
+
+            //Declaracion del auxiliar para el procesamiento de mochilas
+            $auxiliarCaracterEncriptado = 0;
+
+            //Recorrido del vector y la mochila de 8 bits
+            for ($j = 0; $j < count($auxiliarCaracterBinarioCompleto); $j++) {
+                $auxiliarCaracterEncriptado = $claveMochila[$j] * $auxiliarCaracterBinarioCompleto[$j] + $auxiliarCaracterEncriptado;
+            }
+
+            //encadenamiento para el muestreo del Mensaje cifrado
+            $mensajeMochilaExplain = $mensajeMochilaExplain . $auxiliarCaracterEncriptado . " ";
+
+        }
+
+        return  $mensajeMochilaExplain;
+
+    }
+
+    private function desencrypt($mensaje){
+
+        $mensajeDecodeadoExplain = $mensaje;
+
+        $mensajeCifrado = explode(" ", $mensajeDecodeadoExplain);
+
+        for ($i = 0; $i < count($mensajeCifrado); $i++) {
+            $mensajeCifradoExplain = $mensajeCifradoExplain . " " . $mensajeCifrado[$i];
+        }
+
+        $mensajeMochila = explode("/", $mensajeDecodeadoExplain[1]);
+
+        for ($i = 0; $i < count($mensajeMochila); $i++) {
+            $mensajeMochilaExplain = $mensajeMochilaExplain . " " . $mensajeCifrado[$i];
+        }
+
+         //Recorre todo el mensaje para validarlo y decodificarlo
+        for ($i = 0; $i < count($mensajeCifrado) - 1; $i++) {
+
+        //Toma el valor actual del mensaje para verificar la validez del mensaje
+            $auxiliarComprobacion = $mensajeCifrado[$i];
+
+        //Reinicia el valor del auxiliar Binario
+            $auxiliarBinario = "";
+
+        //Recorre la mochila para la decodificacion del mensaje
+            for ($j = count($mensajeMochila) - 1; $j >= 0; $j--) {
+
+                if ($auxiliarComprobacion > 0) {
+
+                    if ($auxiliarComprobacion >= $mensajeMochila[$j]) {
+
+                        $auxiliarComprobacion = $auxiliarComprobacion - $mensajeMochila[$j];
+
+                        $auxiliarBinario = "1" . $auxiliarBinario;
+
+
+                    } else {
+
+                        $auxiliarBinario = "0" . $auxiliarBinario;
+
+                    }
+
+                }
+
+            }
+
+            if ($auxiliarComprobacion === 0) {
+
+                $caracterBinarioDecimal = bindec($auxiliarBinario);
+                $caracterDecimalAscii = chr($caracterBinarioDecimal);
+
+                $mensajeBinarioExplain = $mensajeBinarioExplain . " " . $auxiliarBinario;
+                $mensajeDecimalExplain = $mensajeDecimalExplain . " " . $caracterBinarioDecimal;
+
+                $mensajeDescifrado = $mensajeDescifrado . $caracterDecimalAscii;
+
+            } else {
+
+                $TAG_ERROR = "El mensaje se ha comprometido";
+                $mensajeDecodeado = $TAG_ERROR;
+                $mensajeCifradoExplain = $TAG_ERROR;
+                $mensajeMochilaExplain = $TAG_ERROR;
+                $mensajeBinarioExplain = $TAG_ERROR;
+                $mensajeDecimalExplain = $TAG_ERROR;
+                $mensajeDescifrado = $TAG_ERROR;
+
+                break;
+            }
+
+        }
+    }
+
 }
