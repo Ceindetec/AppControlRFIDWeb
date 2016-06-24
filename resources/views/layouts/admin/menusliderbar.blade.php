@@ -13,7 +13,7 @@
 		<li><a><i class="fa fa-male"></i> Administración <span class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
 				<li><a href="{!!route('controlaccc')!!}">Control de acceso usuarios</a></li>
-				<li><a href="form_advanced.html">Control de acceso invitados</a></li>
+				<li><a href="{!!route('registroinvitados')!!}">Registro de invitados</a></li>
 				<li><a href="form_validation.html">Reportes</a></li>
 			</ul>
 		</li>

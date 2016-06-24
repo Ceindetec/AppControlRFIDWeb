@@ -67,6 +67,19 @@ Route::post('gridautorizadosRFID','ControlaccController@gridautorizadosRFID')->n
 Route::post('agregarfuncionariomoduloRFID','ControlaccController@agregarfuncionariomoduloRFID')->name('agregarfuncionariomoduloRFID');
 Route::post('eliminarfuncionariomoduloRFID','ControlaccController@eliminarfuncionariomoduloRFID')->name('eliminarfuncionariomoduloRFID');
 Route::post('actualizartodomoduloRFID','ControlaccController@actualizartodomoduloRFID')->name('actualizartodomoduloRFID');
+Route::post('confirmacionRFID','ControlaccController@confirmacionRFID')->name('confirmacionRFID');
+
+
+/*
+Registro de invitados
+ */
+
+Route::get('registroinvitados','registroinvitadoController@index')->name('registroinvitados');
+Route::post('registroinvitados','registroinvitadoController@pregistroinvitados');
+Route::post('buscarinvitado','registroinvitadoController@buscarinvitado')->name('buscarinvitado');
+Route::post('drodmdulo','registroinvitadoController@drodmdulo')->name('drodmdulo');
+Route::get('getdocumento','registroinvitadoController@getdocumento')->name('getdocumento');
+
 
 
 Route::get("home", function(){
