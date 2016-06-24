@@ -46,12 +46,12 @@ class muduloRfidConroller extends Controller
         $existe = 0;
         try{
             $datos = moduloModel::find($request->mod_id);
-            $nuevo = $request->input('mod_codigo');
+            $nuevo = strtolower($request->input('mod_codigo'));
 
             $existe = moduloModel::where('mod_codigo',$nuevo)->count();
 
             if($existe == 0){
-                $datos->mod_codigo = $request->mod_codigo;
+                $datos->mod_codigo = strtolower($request->mod_codigo);
                 $datos->mod_nombre = $request->input('mod_nombre');
                 $datos->mod_usuario_id = Auth::User()->usu_id;
                 $datos->save();
@@ -76,7 +76,7 @@ class muduloRfidConroller extends Controller
         $resul;
         try{
             $datos = new moduloModel();
-            $datos->mod_codigo = $request->input('mod_codigo');
+            $datos->mod_codigo = strtolower ($request->input('mod_codigo'));
             $datos->mod_nombre = $request->input('mod_nombre');
             $datos->mod_usuario_id = Auth::User()->usu_id;
             $datos->mod_fecha = date('y-m-d');

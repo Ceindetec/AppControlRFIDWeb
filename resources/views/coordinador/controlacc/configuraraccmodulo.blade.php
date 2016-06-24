@@ -167,13 +167,7 @@ function eliminar(event){
 	var data = table[1].row( $(element).parents('tr')).data();
 	data = {'mod_id':'{{$query->mod_id}}','func_id':data.func_id};
 	$.post("{!!route('eliminarfuncionariomoduloRFID')!!}", data, function(result){
-		console.log(result);
-		datajsonws.dispositivo = "PC";
-		datajsonws.accion="DEL";
-		result = JSON.stringify(result);
-		datajsonws.data = result;
-		enviar = JSON.stringify(datajsonws);
-		ws.send(enviar);
+		ws.send(result);
 		table[0].ajax.reload();
 		table[1].ajax.reload();
 	});
@@ -184,12 +178,7 @@ function agregar(event){
 	var data = table[0].row( $(element).parents('tr')).data();
 	data = {'mod_id':'{{$query->mod_id}}','func_id':data.func_id};
 	$.post("{!!route('agregarfuncionariomoduloRFID')!!}", data, function(result){
-		datajsonws.dispositivo = "PC";
-		datajsonws.accion="INS";
-		result = JSON.stringify(result);
-		datajsonws.data = result;
-		enviar = JSON.stringify(datajsonws);
-		ws.send(enviar);
+		ws.send(result);
 		table[0].ajax.reload();
 		table[1].ajax.reload();
 	});
@@ -216,7 +205,7 @@ function actualizar(){
 function WebSocketTest()
 {
 
-	ws = new WebSocket("ws://192.168.0.245:8081/streaming");
+	ws = new WebSocket("ws://192.168.0.245:8082/streaming");
 
 	ws.onopen = function()
 	{
@@ -225,11 +214,12 @@ function WebSocketTest()
 			$('#desconectado').hide();
 			$('#Conectado').show();
 
-			datajsonws.dispositivo = "PC";
-				datajsonws.accion="permiso";
-				datajsonws.data="";
-				enviar = JSON.stringify(datajsonws);
-				ws.send(enviar);
+
+			$.post("{!!route('confirmacionRFID')!!}",function(result){
+				ws.send(result);
+			});
+
+			
 
 		};
 

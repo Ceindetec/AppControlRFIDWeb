@@ -40,7 +40,7 @@ class ControlaccController extends Controller
     }
 
     public function gridDetalleaccmodRFID(Request $request){
-        $query = autorizacionModel::where('aut_modulo_id', $request->mod_id)->where('aut_estado_id',1)->get();
+        $query = autorizacionModel::where('aut_modulo_id', $request->mod_id)->where('aut_estado_id',1)->where("aut_tautorizacion_id",1)->get();
         foreach ($query as $qu) {
             $qu->getfuncionario->tdocumento;
         }
@@ -56,10 +56,12 @@ class ControlaccController extends Controller
     public function gridnoautorizadosRFID(Request $request){
         $this->modulo = $request->mod_id;
         $query = fucionarioModel::where('func_estado_id', 1)
+        ->where("func_tfuncionario_id",1)
         ->whereNotIn('func_id',function($query){
             $query->select('aut_funcionario_id')
             ->from('autorizacion')
             ->where('autorizacion.aut_modulo_id', $this->modulo)
+            ->where('autorizacion.aut_tautorizacion_id',1)
             ->where('autorizacion.aut_estado_id',1);
         })->get();
         foreach ($query as $qu) {
@@ -71,10 +73,12 @@ class ControlaccController extends Controller
     public function gridautorizadosRFID(Request $request){
         $this->modulo = $request->mod_id;
         $query = fucionarioModel::where('func_estado_id', 1)
+        ->where('func_tfuncionario_id',1)
         ->whereIn('func_id',function($query){
             $query->select('aut_funcionario_id')
             ->from('autorizacion')
             ->where('autorizacion.aut_modulo_id', $this->modulo)
+            ->where('autorizacion.aut_tautorizacion_id',1)
             ->where('autorizacion.aut_estado_id',1);
         })->get();
         foreach ($query as $qu) {
@@ -106,9 +110,10 @@ class ControlaccController extends Controller
                 $query = fucionarioModel::find($request->func_id);
                 $query2 = moduloModel::find($request->mod_id);
             }
-            $result['tarjeta']= $query->func_tarjeta;
-            $result['modulo']= $query2->mod_codigo;
-            return $result;
+            $dataResult["dispositivo"] = "PC";
+            $dataResult["accion"] = "INS";
+            $dataResult["data"] = ["modulo"=>$query2->mod_codigo, "tarjeta"=>$query->func_tarjeta];
+            return $this->encrypt(json_encode($dataResult));
         }catch(Exception $e){
 
         }
@@ -125,9 +130,10 @@ class ControlaccController extends Controller
 
         $query = fucionarioModel::find($request->func_id);
         $query2 = moduloModel::find($request->mod_id);
-        $result['tarjeta']= $query->func_tarjeta;
-        $result['modulo']= $query2->mod_codigo;
-        return $result;
+        $dataResult["dispositivo"] = "PC";
+        $dataResult["accion"] = "DEL";
+        $dataResult["data"] = ["modulo"=>$query2->mod_codigo, "tarjeta"=>$query->func_tarjeta];
+        return $this->encrypt(json_encode($dataResult));
     }
 
     public function actualizartodomoduloRFID(Request $request){
@@ -139,24 +145,28 @@ class ControlaccController extends Controller
         return($query);
     }
 
+    public function confirmacionRFID(){
+
+        $result["dispositivo"] = "PC";
+        $result["accion"] = "permiso";
+        $result["data"] = "";
+        $mensaje = $this->encrypt(json_encode($result));
+        return $this->encrypt(json_encode($result));
+    }
+
 
 
     private function encrypt($mensaje){
 
         $mensajeOriginal = trim(utf8_decode($mensaje));
         $mensajeFraccionado = str_split($mensajeOriginal);
+        $mensajeBinarioCompletoExplain ="";
+        $mensajeMochilaExplain="";
         for ($i = 0; $i < count($mensajeFraccionado); $i++) {
 
             /*EXPLAIN ####################################################################################################*/
 
-            //Cadena para la explicacion del fraccinamiento del mensaje
-            $mensajeFraccionadoExplain = $mensajeFraccionadoExplain . " " . $mensajeFraccionado[$i];
 
-            //Cadena para la explicacion de la conversion a ASCII del mensaje
-            $mensajeAsciiExplain = $mensajeAsciiExplain . " " . ord($mensajeFraccionado[$i]);
-
-            //Cadena para la explicacion de la conversion a ASCII del mensaje
-            $mensajeBinarioExplain = $mensajeBinarioExplain . " " . decbin(ord($mensajeFraccionado[$i]));
 
             //Cadena para la explicacion de la conversion a ASCII del mensaje
             $mensajeBinarioCompletoExplain = $mensajeBinarioCompletoExplain . " " . substr("00000000", 0, 8 - strlen(decbin(ord($mensajeFraccionado[$i])))) . decbin(ord($mensajeFraccionado[$i]));
@@ -173,11 +183,11 @@ class ControlaccController extends Controller
 
             //Recorrido del vector y la mochila de 8 bits
             for ($j = 0; $j < count($auxiliarCaracterBinarioCompleto); $j++) {
-                $auxiliarCaracterEncriptado = $claveMochila[$j] * $auxiliarCaracterBinarioCompleto[$j] + $auxiliarCaracterEncriptado;
+                $auxiliarCaracterEncriptado = $this->claveMochila[$j] * $auxiliarCaracterBinarioCompleto[$j] + $auxiliarCaracterEncriptado;
             }
 
             //encadenamiento para el muestreo del Mensaje cifrado
-            $mensajeMochilaExplain = $mensajeMochilaExplain . $auxiliarCaracterEncriptado . " ";
+            $mensajeMochilaExplain = $auxiliarCaracterEncriptado ." ".$mensajeMochilaExplain;
 
         }
 
@@ -191,15 +201,8 @@ class ControlaccController extends Controller
 
         $mensajeCifrado = explode(" ", $mensajeDecodeadoExplain);
 
-        for ($i = 0; $i < count($mensajeCifrado); $i++) {
-            $mensajeCifradoExplain = $mensajeCifradoExplain . " " . $mensajeCifrado[$i];
-        }
+        $mensajeDescifrado="";
 
-        $mensajeMochila = explode("/", $mensajeDecodeadoExplain[1]);
-
-        for ($i = 0; $i < count($mensajeMochila); $i++) {
-            $mensajeMochilaExplain = $mensajeMochilaExplain . " " . $mensajeCifrado[$i];
-        }
 
          //Recorre todo el mensaje para validarlo y decodificarlo
         for ($i = 0; $i < count($mensajeCifrado) - 1; $i++) {
@@ -211,13 +214,13 @@ class ControlaccController extends Controller
             $auxiliarBinario = "";
 
         //Recorre la mochila para la decodificacion del mensaje
-            for ($j = count($mensajeMochila) - 1; $j >= 0; $j--) {
+            for ($j = count($this->claveMochila) - 1; $j >= 0; $j--) {
 
                 if ($auxiliarComprobacion > 0) {
 
-                    if ($auxiliarComprobacion >= $mensajeMochila[$j]) {
+                    if ($auxiliarComprobacion >= $this->claveMochila[$j]) {
 
-                        $auxiliarComprobacion = $auxiliarComprobacion - $mensajeMochila[$j];
+                        $auxiliarComprobacion = $auxiliarComprobacion - $this->claveMochila[$j];
 
                         $auxiliarBinario = "1" . $auxiliarBinario;
 
@@ -237,25 +240,20 @@ class ControlaccController extends Controller
                 $caracterBinarioDecimal = bindec($auxiliarBinario);
                 $caracterDecimalAscii = chr($caracterBinarioDecimal);
 
-                $mensajeBinarioExplain = $mensajeBinarioExplain . " " . $auxiliarBinario;
-                $mensajeDecimalExplain = $mensajeDecimalExplain . " " . $caracterBinarioDecimal;
-
-                $mensajeDescifrado = $mensajeDescifrado . $caracterDecimalAscii;
+                $mensajeDescifrado = $caracterDecimalAscii.$mensajeDescifrado;
 
             } else {
 
-                $TAG_ERROR = "El mensaje se ha comprometido";
-                $mensajeDecodeado = $TAG_ERROR;
-                $mensajeCifradoExplain = $TAG_ERROR;
-                $mensajeMochilaExplain = $TAG_ERROR;
-                $mensajeBinarioExplain = $TAG_ERROR;
-                $mensajeDecimalExplain = $TAG_ERROR;
+                $TAG_ERROR = "ERROR";
                 $mensajeDescifrado = $TAG_ERROR;
 
                 break;
             }
 
         }
+        return $mensajeDescifrado;
     }
+
+
 
 }
