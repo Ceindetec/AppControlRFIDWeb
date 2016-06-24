@@ -32,7 +32,7 @@ class funcionarioRfidController extends Controller
    public function gridfuncionariosRFID(Request $request)
    {
 
-    $query = fucionarioModel::where('func_estado_id', 1)->get();
+    $query = fucionarioModel::where('func_estado_id', 1)->where("func_tfuncionario_id", 1)->get();
     foreach ($query as $qu) {
         $qu->tdocumento;
     }    
@@ -65,7 +65,7 @@ public function pmodaleditarfuncionarioRFID(updfuncionarioRQ $request){
             }
         }
         if($dato->func_tarjeta != $request->func_tarjeta){
-            $existetar = fucionarioModel::where('func_tarjeta', $request->func_tarjeta)->count();
+            $existetar = fucionarioModel::where('func_tarjeta', strtolower($request->func_tarjeta))->count();
         }
         if($existedo==0){
             if($existetar==0){
@@ -73,7 +73,7 @@ public function pmodaleditarfuncionarioRFID(updfuncionarioRQ $request){
                 $dato->func_documento = $request->input('func_documento');
                 $dato->func_nombres = $request->input('func_nombres');
                 $dato->func_apellidos = $request->input('func_apellidos');
-                $dato->func_tarjeta = $request->input('func_tarjeta');
+                $dato->func_tarjeta = strtolower($request->input('func_tarjeta'));
                 $dato->save();
                 $resul['estado']=true;
                 $resul['mensaje']='Se actualizo el funcionario conrrectamente.';
@@ -106,7 +106,8 @@ public function pregistrarfuncionarioRFID(insfuncionarioRQ $request){
     $datos->func_documento = $request->func_documento;
     $datos->func_nombres = $request->func_nombres;
     $datos->func_apellidos = $request->func_apellidos;
-    $datos->func_tarjeta = $request->func_tarjeta;
+    $datos->func_tarjeta = strtolower($request->func_tarjeta);
+    $datos->fun_tfuncionario_id = 1;
     $datos->func_estado_id = 1;
     $datos->save();
     $resul['estado']=true;
