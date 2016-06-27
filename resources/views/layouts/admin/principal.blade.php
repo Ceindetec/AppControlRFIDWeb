@@ -173,7 +173,8 @@
 <!-- msgbox js-->
 {!!Html::script('js/msgbox/jquery.msgbox.js')!!}
 
-
+<!-- moment js-->
+{!!Html::script('js/moment/moment.min.js')!!}
 
 <!--kendojs -->
 {!!Html::script('js/kendo/kendo.all.min.js')!!}
