@@ -141,6 +141,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
          //Proveedorde facebook
         Laravel\Socialite\SocialiteServiceProvider::class,
+		//Proveedor de exportacion a excel
+		Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -207,7 +209,9 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         //alias de facebook
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+		//Alias de excel
+		'Excel' => Maatwebsite\Excel\Facades\Excel::class
 
     ],
 
