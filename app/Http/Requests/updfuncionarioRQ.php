@@ -27,7 +27,7 @@ class updfuncionarioRQ extends Request
             'func_documento'=>'required|max:11',
             'func_nombres'=>'required|max:100',
             'func_apellidos'=>'required|max:100',
-            'func_tarjeta'=>'required|max:45',
+            'func_tarjeta'=>'required|max:8',
         ];
     }
 
@@ -36,7 +36,7 @@ class updfuncionarioRQ extends Request
            'func_documento.max'=>"El documento debe contener maximo 11 caractares.",
            'func_nombres.max'=>'Los nombres no debe contener mas de 100 caracteres.',
            'func_apellidos.max'=>'Los apellidos no debe contener mas de 45 caracteres.',
-           'func_tarjeta.max'=>'El cod. de la tarjeta no debe contener mas de 45 caracteres.'
+           'func_tarjeta.max'=>'El cod. de la tarjeta no debe contener mas de 8 caracteres.'
         ];
     }
 }

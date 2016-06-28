@@ -99,8 +99,6 @@ public function registrarfuncionarioRFID(){
 }
 
 public function pregistrarfuncionarioRFID(insfuncionarioRQ $request){
-
-
     $datos = new fucionarioModel();
     $datos->func_tdocumento_id = $request->func_tdocumento_id;
     $datos->func_documento = $request->func_documento;
