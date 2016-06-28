@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group">
 			{!!Form::label('Cod. tarjeta RFID (*)')!!}
-			{!!Form::text('func_tarjeta',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+			{!!Form::text('func_tarjeta',null,['class'=>'form-control', 'required', 'maxlength'=>'8'])!!}
 		</div>
 	</div>
 	<div class="modal-footer">

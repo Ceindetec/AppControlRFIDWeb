@@ -8,7 +8,7 @@
   <input type="hidden" name="mod_id" value="{!!$data->mod_id!!}">
   <div class="form-group">
     {!!Form::label('codigo modulo RFID (*)')!!}
-    {!!Form::text('mod_codigo',null,['class'=>'form-control', 'required', 'maxlength'=>'45'])!!}
+    {!!Form::text('mod_codigo',null,['class'=>'form-control', 'required', 'maxlength'=>'8'])!!}
   </div>
   <div class="form-group">
     {!!Form::label('Nombre oficina (*)')!!}

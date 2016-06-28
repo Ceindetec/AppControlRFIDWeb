@@ -24,7 +24,7 @@ class upmoduloRQ extends Request
     public function rules()
     {
        return [
-            'mod_codigo'=>'required|max:45',
+            'mod_codigo'=>'required|max:8',
             'mod_nombre'=>'required|max:45',
             //
         ];
@@ -32,7 +32,7 @@ class upmoduloRQ extends Request
 
     public function messages(){
         return[
-           'mod_codigo.max'=>"la id del modulo No debe contener mas de 45 caracteres.",
+           'mod_codigo.max'=>"la id del modulo No debe contener mas de 8 caracteres.",
            'mod_nombre.max'=>'El nombre del modulo No debe contener mas de 45 caracteres.'
         ];
     }

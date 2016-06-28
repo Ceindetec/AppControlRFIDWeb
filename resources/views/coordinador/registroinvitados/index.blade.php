@@ -159,9 +159,16 @@ function oneError(result){
 	console.log(result);
 }
 
+jQuery.fn.resetear = function () {
+	$(this).each (function() { this.reset(); });
+}
+
 function onSuccess(result){
 	if(result.estado){
-		$.msgbox(result.mensaje, { type: 'success' });
+		$.msgbox(result.mensaje, { type: 'success'}, function(){
+			$("form").resetear();
+			window.location.href="{{route('controlinvitados')}}";
+		});
 	}else{
 		$.msgbox(result.mensaje, { type: 'error' });	
 	}

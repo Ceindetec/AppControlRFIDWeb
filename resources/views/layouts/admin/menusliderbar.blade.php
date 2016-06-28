@@ -6,7 +6,6 @@
 				<ul class="nav child_menu">
 					<li><a href="{!!route('registromodulorfid')!!}">Registro modulo RFID</a></li>
 					<li><a href="{!!route('registrofuncionariosfid')!!}">Registro de funcionarios</a></li>
-					<li><a href="{!!route('register')!!}">Registro de usuarios</a></li>
 				</ul>
 			</li>
 		@endif
@@ -14,6 +13,7 @@
 			<ul class="nav child_menu">
 				<li><a href="{!!route('controlaccc')!!}">Control de acceso usuarios</a></li>
 				<li><a href="{!!route('registroinvitados')!!}">Registro de invitados</a></li>
+				<li><a href="{!!route('controlinvitados')!!}">Control de invitados</a></li>
 				<li><a href="form_validation.html">Reportes</a></li>
 			</ul>
 		</li>
