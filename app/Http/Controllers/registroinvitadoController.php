@@ -138,5 +138,32 @@ class registroinvitadoController extends Controller
         return $result;
     }
 
-    
+    public function controlinvitados(){
+        return view('coordinador.registroinvitados.controlinvitados');
+    }
+
+    public function gridinvitadosRFID(){
+        $query = fucionarioModel::join('autorizacion', 'autorizacion.aut_funcionario_id', '=','funcionario.func_id')
+        ->join('modulo','modulo.mod_id','=','autorizacion.aut_modulo_id')
+        ->where('funcionario.func_estado_id', 1)
+        ->where("funcionario.func_tfuncionario_id", 2)
+        ->where("autorizacion.aut_estado_id", 1)
+        ->where('autorizacion.aut_fecha_registro', date('Y-m-d'))->get();
+        foreach ($query as $qu) {
+            $qu->tdocumento;
+        }    
+        return json_encode(['data'=> $query]);
+    }
+
+    public function salidainvitado(Request $request){
+        $autorizacion = autorizacionModel::find($request->aut_id);
+        $autorizacion->aut_estado_id=2;
+        $autorizacion->save();
+        $invitado = fucionarioModel::find($request->func_id);
+        $invitado->func_tarjeta = null;
+        $invitado->save();
+        $result['estado']=true;
+        $result['mensaje'] ="Se dio de alta al invitado.";
+        return $result;
+    }    
 }

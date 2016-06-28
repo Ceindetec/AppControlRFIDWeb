@@ -48,9 +48,19 @@ class ControlaccController extends Controller
     }
 
     public function configuraraccmoduloRFID($id){
-
-        $query = moduloModel::find($id);
-        return view('coordinador.controlacc.configuraraccmodulo', compact('query'));
+        try
+        {
+             $query = moduloModel::find($id);
+             if(isset($query)){
+                return view('coordinador.controlacc.configuraraccmodulo', compact('query'));
+             }else{
+                return view('coordinador.controlacc.index');
+             }
+        }
+        catch(\Exception $e)
+        {
+            return view('coordinador.controlacc.index');
+        }
     }
 
     public function gridnoautorizadosRFID(Request $request){

@@ -79,6 +79,10 @@ Route::post('registroinvitados','registroinvitadoController@pregistroinvitados')
 Route::post('buscarinvitado','registroinvitadoController@buscarinvitado')->name('buscarinvitado');
 Route::post('drodmdulo','registroinvitadoController@drodmdulo')->name('drodmdulo');
 Route::get('getdocumento','registroinvitadoController@getdocumento')->name('getdocumento');
+Route::get('controlinvitados','registroinvitadoController@controlinvitados')->name('controlinvitados');
+
+Route::post('gridinvitadosRFID','registroinvitadoController@gridinvitadosRFID')->name('gridinvitadosRFID');
+Route::post('salidainvitado','registroinvitadoController@salidainvitado')->name('salidainvitado');
 
 
 
