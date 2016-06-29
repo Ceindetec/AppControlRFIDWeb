@@ -14,7 +14,12 @@
 				<li><a href="{!!route('controlaccc')!!}">Control de acceso usuarios</a></li>
 				<li><a href="{!!route('registroinvitados')!!}">Registro de invitados</a></li>
 				<li><a href="{!!route('controlinvitados')!!}">Control de invitados</a></li>
-				<li><a href="form_validation.html">Reportes</a></li>
+			</ul>
+		</li>
+		<li><a><i class="fa fa-file-excel-o" aria-hidden="true"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="{!!route('reporteIngresoPorModulo')!!}">Reporte de ingresos por modulo</a></li>
+				<li><a href="{!!route('reporteIngresoPorFuncionario')!!}">Reporte de ingresos por funcionario</a></li>
 			</ul>
 		</li>
 	</ul>

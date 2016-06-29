@@ -20,11 +20,11 @@ div[role="main"] div[role="progressbar"]{
 
 <div class="row">
 	<div id="Conectado" class="progress-bar bg-green row" role="progressbar">
-		<span>Conección con el servidor establesidad <button id="btnactualizar" class="btn btn-primary" onclick="actualizar()">Actualizar modulo</button></span>
+		<span>Conexión con el servidor establecida <button id="btnactualizar" class="btn btn-primary" onclick="actualizar()">Actualizar modulo</button></span>
 	</div>
 
 	<div id="desconectado" class="progress-bar bg-orange row" role="progressbar" >
-		Se a perdido la conección con el servidor <button id="btnconectar" class="btn btn-success">Conectar</button>
+		Se a perdido la conexión con el servidor <button id="btnconectar" class="btn btn-success">Conectar</button>
 	</div>
 </div>
 
@@ -42,13 +42,13 @@ div[role="main"] div[role="progressbar"]{
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">Usuarios sin autorizados</h3>
+			<h3 class="panel-title">Usuarios no autorizados</h3>
 		</div>
 		<div class="panel-body">
 			<table id="noAutorizados" class="table table-striped table-bordered no-footer" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th>id</th>
+						<th>Id</th>
 						<th>Tipo de documento</th>
 						<th>Documento</th>
 						<th>Nombres</th>
@@ -73,7 +73,7 @@ div[role="main"] div[role="progressbar"]{
 			<table id="Autorizados" class="table table-striped table-bordered no-footer" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th>id</th>
+						<th>Id</th>
 						<th>Tipo de documento</th>
 						<th>Documento</th>
 						<th>Nombres</th>
@@ -186,19 +186,8 @@ function agregar(event){
 
 function actualizar(){
 	$.post("{!!route('actualizartodomoduloRFID')!!}",{"modulo":"{!! $query->mod_id !!}"},function(result){
-		datajsonws.dispositivo = "PC";
-		datajsonws.accion="UPD";
-		var array = [];
-		var predata = {};
-		predata.modulo = result[0].getmodulo.mod_codigo;
-		for(i=0;i<result.length;i++) {
-			array.push(result[i].getfuncionario.func_tarjeta)
-		}
-		predata.data = array;
-		predata = JSON.stringify(predata);
-		datajsonws.data = predata;
-		enviar = JSON.stringify(datajsonws);
-		ws.send(enviar);
+		
+		ws.send(result);
 	})
 }
 

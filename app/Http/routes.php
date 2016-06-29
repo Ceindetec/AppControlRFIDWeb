@@ -12,95 +12,98 @@
 */
 
 
-Route::get("/", function(){
-	return redirect('auth/login');
+Route::get("/", function () {
+    return redirect('auth/login');
 });
-
 
 
 Route::group(['middleware' => 'auth'], function () {
 
-	
-	Route::group(['middleware' => 'role'], function () {
-			/*
-		Administracion de registro de modulos
-		 */
-		Route::get('registromodulorfid', 'muduloRfidConroller@index')->name('registromodulorfid');
-		Route::post('gridmodulosRFID', 'muduloRfidConroller@gridmodulosRFID')->name('gridmodulosRFID');
-		Route::get('modaleditarmodulo', 'muduloRfidConroller@modaleditarmoduloRFID')->name('modaleditarmodulo');
-		Route::post('modaleditarmodulo', 'muduloRfidConroller@pmodaleditarmoduloRFID');
-		Route::get('registrarmodulo', 'muduloRfidConroller@registrarmoduloRFID')->name('registrarmodulo');
-		Route::post('registrarmodulo', 'muduloRfidConroller@pregistrarmoduloRFID')->name('registrarmodulo');
-		Route::post('eliminarmodulo', 'muduloRfidConroller@peliminarmoduloRFID')->name('eliminarmodulo');
 
-		/*
-		Administracion de registro de funcionarios
-		 */
+    Route::group(['middleware' => 'role'], function () {
+        /*
+    Administracion de registro de modulos
+     */
+        Route::get('registromodulorfid', 'muduloRfidConroller@index')->name('registromodulorfid');
+        Route::post('gridmodulosRFID', 'muduloRfidConroller@gridmodulosRFID')->name('gridmodulosRFID');
+        Route::get('modaleditarmodulo', 'muduloRfidConroller@modaleditarmoduloRFID')->name('modaleditarmodulo');
+        Route::post('modaleditarmodulo', 'muduloRfidConroller@pmodaleditarmoduloRFID');
+        Route::get('registrarmodulo', 'muduloRfidConroller@registrarmoduloRFID')->name('registrarmodulo');
+        Route::post('registrarmodulo', 'muduloRfidConroller@pregistrarmoduloRFID')->name('registrarmodulo');
+        Route::post('eliminarmodulo', 'muduloRfidConroller@peliminarmoduloRFID')->name('eliminarmodulo');
 
-		Route::get('registrofuncionariosfid', 'funcionarioRfidController@index')->name('registrofuncionariosfid');
-		Route::post('gridfuncionariosRFID', 'funcionarioRfidController@gridfuncionariosRFID')->name('gridfuncionariosRFID');
-		Route::get('modaleditarfuncionario', 'funcionarioRfidController@modaleditarfuncionarioRFID')->name('modaleditarfuncionario');
-		Route::post('drodtdocumento', 'funcionarioRfidController@drodtdocumentoRFID')->name('drodtdocumento');
-		Route::post('modaleditarfuncionario', 'funcionarioRfidController@pmodaleditarfuncionarioRFID');
-		Route::get('registrarfuncionario', 'funcionarioRfidController@registrarfuncionarioRFID')->name('registrarfuncionario');
-		Route::post('registrarfuncionario', 'funcionarioRfidController@pregistrarfuncionarioRFID');
-		Route::post('eliminarfuncionario', 'funcionarioRfidController@peliminarfuncionarioRFID')->name('eliminarfuncionario');
+        /*
+        Administracion de registro de funcionarios
+         */
 
-		
+        Route::get('registrofuncionariosfid', 'funcionarioRfidController@index')->name('registrofuncionariosfid');
+        Route::post('gridfuncionariosRFID', 'funcionarioRfidController@gridfuncionariosRFID')->name('gridfuncionariosRFID');
+        Route::get('modaleditarfuncionario', 'funcionarioRfidController@modaleditarfuncionarioRFID')->name('modaleditarfuncionario');
+        Route::post('drodtdocumento', 'funcionarioRfidController@drodtdocumentoRFID')->name('drodtdocumento');
+        Route::post('modaleditarfuncionario', 'funcionarioRfidController@pmodaleditarfuncionarioRFID');
+        Route::get('registrarfuncionario', 'funcionarioRfidController@registrarfuncionarioRFID')->name('registrarfuncionario');
+        Route::post('registrarfuncionario', 'funcionarioRfidController@pregistrarfuncionarioRFID');
+        Route::post('eliminarfuncionario', 'funcionarioRfidController@peliminarfuncionarioRFID')->name('eliminarfuncionario');
 
-
-	});
+    });
 
 
+    /*
+    control de acceso
+     */
 
-/*
-control de acceso
- */
-
-Route::get('controlaccc','ControlaccController@index')->name('controlaccc');
-Route::get('modaldetalleaccmod','ControlaccController@modaldetalleaccmod')->name('modaldetalleaccmod');
-Route::post('gridcontrolaccRFID','ControlaccController@gridcontrolaccRFID')->name('gridcontrolaccRFID');
-Route::post('gridDetalleaccmodRFID','ControlaccController@gridDetalleaccmodRFID')->name('gridDetalleaccmodRFID');
-Route::get('configurarmodulo/{id}/configurar','ControlaccController@configuraraccmoduloRFID');
-Route::post('gridnoautorizadosRFID','ControlaccController@gridnoautorizadosRFID')->name('gridnoautorizadosRFID');
-Route::post('gridautorizadosRFID','ControlaccController@gridautorizadosRFID')->name('gridautorizadosRFID');
-Route::post('agregarfuncionariomoduloRFID','ControlaccController@agregarfuncionariomoduloRFID')->name('agregarfuncionariomoduloRFID');
-Route::post('eliminarfuncionariomoduloRFID','ControlaccController@eliminarfuncionariomoduloRFID')->name('eliminarfuncionariomoduloRFID');
-Route::post('actualizartodomoduloRFID','ControlaccController@actualizartodomoduloRFID')->name('actualizartodomoduloRFID');
-Route::post('confirmacionRFID','ControlaccController@confirmacionRFID')->name('confirmacionRFID');
-
-
-/*
-Registro de invitados
- */
-
-Route::get('registroinvitados','registroinvitadoController@index')->name('registroinvitados');
-Route::post('registroinvitados','registroinvitadoController@pregistroinvitados');
-Route::post('buscarinvitado','registroinvitadoController@buscarinvitado')->name('buscarinvitado');
-Route::post('drodmdulo','registroinvitadoController@drodmdulo')->name('drodmdulo');
-Route::get('getdocumento','registroinvitadoController@getdocumento')->name('getdocumento');
-Route::get('controlinvitados','registroinvitadoController@controlinvitados')->name('controlinvitados');
-
-Route::post('gridinvitadosRFID','registroinvitadoController@gridinvitadosRFID')->name('gridinvitadosRFID');
-Route::post('salidainvitado','registroinvitadoController@salidainvitado')->name('salidainvitado');
+    Route::get('controlaccc', 'ControlaccController@index')->name('controlaccc');
+    Route::get('modaldetalleaccmod', 'ControlaccController@modaldetalleaccmod')->name('modaldetalleaccmod');
+    Route::post('gridcontrolaccRFID', 'ControlaccController@gridcontrolaccRFID')->name('gridcontrolaccRFID');
+    Route::post('gridDetalleaccmodRFID', 'ControlaccController@gridDetalleaccmodRFID')->name('gridDetalleaccmodRFID');
+    Route::get('configurarmodulo/{id}/configurar', 'ControlaccController@configuraraccmoduloRFID');
+    Route::post('gridnoautorizadosRFID', 'ControlaccController@gridnoautorizadosRFID')->name('gridnoautorizadosRFID');
+    Route::post('gridautorizadosRFID', 'ControlaccController@gridautorizadosRFID')->name('gridautorizadosRFID');
+    Route::post('agregarfuncionariomoduloRFID', 'ControlaccController@agregarfuncionariomoduloRFID')->name('agregarfuncionariomoduloRFID');
+    Route::post('eliminarfuncionariomoduloRFID', 'ControlaccController@eliminarfuncionariomoduloRFID')->name('eliminarfuncionariomoduloRFID');
+    Route::post('actualizartodomoduloRFID', 'ControlaccController@actualizartodomoduloRFID')->name('actualizartodomoduloRFID');
+    Route::post('confirmacionRFID', 'ControlaccController@confirmacionRFID')->name('confirmacionRFID');
 
 
+    /*
+    Registro de invitados
+     */
 
-Route::get("home", function(){
-	return redirect('registromodulorfid');
+    Route::get('registroinvitados', 'registroinvitadoController@index')->name('registroinvitados');
+    Route::post('registroinvitados', 'registroinvitadoController@pregistroinvitados');
+    Route::post('buscarinvitado', 'registroinvitadoController@buscarinvitado')->name('buscarinvitado');
+    Route::post('drodmdulo', 'registroinvitadoController@drodmdulo')->name('drodmdulo');
+    Route::get('getdocumento', 'registroinvitadoController@getdocumento')->name('getdocumento');
+    Route::get('controlinvitados', 'registroinvitadoController@controlinvitados')->name('controlinvitados');
+
+    Route::post('gridinvitadosRFID', 'registroinvitadoController@gridinvitadosRFID')->name('gridinvitadosRFID');
+    Route::post('salidainvitado', 'registroinvitadoController@salidainvitado')->name('salidainvitado');
+
+    /*
+     * Reportes
+     */
+    Route::get('reporteIngresoPorModulo', 'reporteController@reporteIngresoPorModulo')->name('reporteIngresoPorModulo');
+    Route::post('dataReporteIngresoPorModulo', 'reporteController@dataReporteIngresoPorModulo')->name('dataReporteIngresoPorModulo');
+    Route::get('reporteIngresoPorFuncionario', 'reporteController@reporteIngresoPorFuncionario')->name('reporteIngresoPorFuncionario');
+    Route::post('dataReporteIngresoPorFuncionario', 'reporteController@dataReporteIngresoPorFuncionario')->name('dataReporteIngresoPorFuncionario');
+    Route::post('obtenerReporteIngresoPorModulo', 'reporteController@obtenerReporteIngresoPorModulo')->name('obtenerReporteIngresoPorModulo');
+    Route::post('obtenerReporteIngresoPorFuncionario', 'reporteController@obtenerReporteIngresoPorFuncionario')->name('obtenerReporteIngresoPorFuncionario');
+    Route::get('reportemoduloxls', 'reporteController@getreportemoduloxls')->name('reportemoduloxls');
+    Route::get('reportefuncionarioxls', 'reporteController@getreportefuncionarioxls')->name('reportefuncionarioxls');
+    Route::post('getModulosDisponibles', 'reporteController@getModulosDisponibles')->name('getModulosDisponibles');
+    Route::post('getFuncionarioDisponibles', 'reporteController@getFuncionarioDisponibles')->name('getFuncionarioDisponibles');
+
+
+    Route::get("home", function () {
+        return redirect('registromodulorfid');
+    });
+
 });
-
-});
-
-
-
 
 
 Route::get('auth/login', 'Auth\AuthController@getLogin')->name('login');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-
 
 
 /*
