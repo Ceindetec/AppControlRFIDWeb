@@ -74,22 +74,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('buscarinvitado', 'registroinvitadoController@buscarinvitado')->name('buscarinvitado');
     Route::post('drodmdulo', 'registroinvitadoController@drodmdulo')->name('drodmdulo');
     Route::get('getdocumento', 'registroinvitadoController@getdocumento')->name('getdocumento');
-Route::get('controlinvitados','registroinvitadoController@controlinvitados')->name('controlinvitados');
+    Route::get('controlinvitados', 'registroinvitadoController@controlinvitados')->name('controlinvitados');
 
-Route::post('gridinvitadosRFID','registroinvitadoController@gridinvitadosRFID')->name('gridinvitadosRFID');
-Route::post('salidainvitado','registroinvitadoController@salidainvitado')->name('salidainvitado');
+    Route::post('gridinvitadosRFID', 'registroinvitadoController@gridinvitadosRFID')->name('gridinvitadosRFID');
+    Route::post('salidainvitado', 'registroinvitadoController@salidainvitado')->name('salidainvitado');
 
     /*
      * Reportes
      */
-    Route::get('reporteIngresoPorModulo','reporteController@reporteIngresoPorModulo')->name('reporteIngresoPorModulo');
-    Route::post('dataReporteIngresoPorModulo','reporteController@dataReporteIngresoPorModulo')->name('dataReporteIngresoPorModulo');
-	Route::get('reporteIngresoPorFuncionario','reporteController@reporteIngresoPorFuncionario')->name('reporteIngresoPorFuncionario');
-    Route::post('dataReporteIngresoPorFuncionario','reporteController@dataReporteIngresoPorFuncionario')->name('dataReporteIngresoPorFuncionario');
-    Route::post('obtenerReporteIngresoPorModulo','reporteController@obtenerReporteIngresoPorModulo')->name('obtenerReporteIngresoPorModulo');
-	Route::post('getModulosDisponibles', 'reporteController@getModulosDisponibles')->name('getModulosDisponibles');
-	Route::post('getFuncionarioDisponibles', 'reporteController@getFuncionarioDisponibles')->name('getFuncionarioDisponibles');
-	Route::get('reportemoduloxls', 'reporteController@getreportemoduloxls')->name('reportemoduloxls');
+    Route::get('reporteIngresoPorModulo', 'reporteController@reporteIngresoPorModulo')->name('reporteIngresoPorModulo');
+    Route::post('dataReporteIngresoPorModulo', 'reporteController@dataReporteIngresoPorModulo')->name('dataReporteIngresoPorModulo');
+    Route::get('reporteIngresoPorFuncionario', 'reporteController@reporteIngresoPorFuncionario')->name('reporteIngresoPorFuncionario');
+    Route::post('dataReporteIngresoPorFuncionario', 'reporteController@dataReporteIngresoPorFuncionario')->name('dataReporteIngresoPorFuncionario');
+    Route::post('obtenerReporteIngresoPorModulo', 'reporteController@obtenerReporteIngresoPorModulo')->name('obtenerReporteIngresoPorModulo');
+    Route::post('obtenerReporteIngresoPorFuncionario', 'reporteController@obtenerReporteIngresoPorFuncionario')->name('obtenerReporteIngresoPorFuncionario');
+    Route::get('reportemoduloxls', 'reporteController@getreportemoduloxls')->name('reportemoduloxls');
+    Route::get('reportefuncionarioxls', 'reporteController@getreportefuncionarioxls')->name('reportefuncionarioxls');
+    Route::post('getModulosDisponibles', 'reporteController@getModulosDisponibles')->name('getModulosDisponibles');
+    Route::post('getFuncionarioDisponibles', 'reporteController@getFuncionarioDisponibles')->name('getFuncionarioDisponibles');
+
 
     Route::get("home", function () {
         return redirect('registromodulorfid');
