@@ -18,7 +18,8 @@
 		</li>
 		<li><a><i class="fa fa-file-excel-o" aria-hidden="true"></i> Reportes <span class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
-				<li><a href="{!!route('reporteIngresoPorModulo')!!}">Reporte por modulo</a></li>
+				<li><a href="{!!route('reporteIngresoPorModulo')!!}">Reporte de ingresos por modulo</a></li>
+				<li><a href="{!!route('reporteIngresoPorFuncionario')!!}">Reporte de ingresos por funcionario</a></li>
 			</ul>
 		</li>
 	</ul>
