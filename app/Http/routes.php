@@ -89,6 +89,7 @@ Route::post('salidainvitado','registroinvitadoController@salidainvitado')->name(
     Route::post('obtenerReporteIngresoPorModulo','reporteController@obtenerReporteIngresoPorModulo')->name('obtenerReporteIngresoPorModulo');
 	Route::post('getModulosDisponibles', 'reporteController@getModulosDisponibles')->name('getModulosDisponibles');
 	Route::post('getFuncionarioDisponibles', 'reporteController@getFuncionarioDisponibles')->name('getFuncionarioDisponibles');
+	Route::get('reportemoduloxls', 'reporteController@getreportemoduloxls')->name('reportemoduloxls');
 
     Route::get("home", function () {
         return redirect('registromodulorfid');
