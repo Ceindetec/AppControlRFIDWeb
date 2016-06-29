@@ -152,7 +152,16 @@ class ControlaccController extends Controller
             $qu->getfuncionario->func_tarjeta;
             $qu->getmodulo->mod_codigo;
         }
-        return($query);
+
+        $dataResult["dispositivo"] = "PC";
+        $dataResult["accion"] = "UPD";
+        $array;
+        for($i=0;$i<count($query);$i++){
+            $array[$i]=$query[$i]->getfuncionario->func_tarjeta;
+        }
+         $dataResult["data"] = ["modulo"=>$query[0]->getmodulo->mod_codigo, "data"=>$array];
+        return $this->encrypt(json_encode($dataResult));
+
     }
 
     public function confirmacionRFID(){

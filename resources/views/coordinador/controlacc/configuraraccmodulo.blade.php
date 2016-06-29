@@ -186,19 +186,8 @@ function agregar(event){
 
 function actualizar(){
 	$.post("{!!route('actualizartodomoduloRFID')!!}",{"modulo":"{!! $query->mod_id !!}"},function(result){
-		datajsonws.dispositivo = "PC";
-		datajsonws.accion="UPD";
-		var array = [];
-		var predata = {};
-		predata.modulo = result[0].getmodulo.mod_codigo;
-		for(i=0;i<result.length;i++) {
-			array.push(result[i].getfuncionario.func_tarjeta)
-		}
-		predata.data = array;
-		predata = JSON.stringify(predata);
-		datajsonws.data = predata;
-		enviar = JSON.stringify(datajsonws);
-		ws.send(enviar);
+		
+		ws.send(result);
 	})
 }
 
