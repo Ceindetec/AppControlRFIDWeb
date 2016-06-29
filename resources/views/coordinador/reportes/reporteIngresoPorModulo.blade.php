@@ -225,7 +225,10 @@
 		}
 		
 		function obtenerReporteIngresoPorModulo(){
-			$.post("{!!route('obtenerReporteIngresoPorModulo')!!}", {"data":dataset}, function (result) {});
+			$.post("{!!route('obtenerReporteIngresoPorModulo')!!}", {"data":dataset}, function (result) {
+
+				location.href= "{{route('reportemoduloxls')}}";
+			});
 		}
 		
 	</script>
