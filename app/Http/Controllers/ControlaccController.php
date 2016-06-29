@@ -54,7 +54,7 @@ class ControlaccController extends Controller
              if(isset($query)){
                 return view('coordinador.controlacc.configuraraccmodulo', compact('query'));
              }else{
-                return view('coordinador.controlacc.index');
+               return redirect()->back();
              }
         }
         catch(\Exception $e)
