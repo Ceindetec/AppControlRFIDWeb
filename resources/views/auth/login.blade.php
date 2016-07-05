@@ -3,7 +3,7 @@
 <html >
 <head>
     <meta charset="UTF-8">
-    <title>Login Control RFID</title>
+    <title>CUSTODE</title>
 
     {!!Html::style('css/login.css')!!}    
 </head>
