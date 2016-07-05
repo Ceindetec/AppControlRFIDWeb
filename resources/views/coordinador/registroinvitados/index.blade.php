@@ -20,18 +20,15 @@
 		<h3 class="panel-title"></h3>
 	</div>
 	<div class="panel-body">
-		
 		{!!Form::open()!!}
-
 		<div class="form-group">
 			{!!Form::label('Tipo de documento (*)')!!}
 			{!!Form::text('func_tdocumento_id',null,['class'=>'form-control', 'required', 'id'=>'tdocumento', 'style'=>'width:100%'])!!}
 		</div>
 		<div class="form-group">
 			{!!Form::label('numero de documento (*)')!!}
-			
 			<div class="input-group">
-				<input type="text" name="func_documento" id="func_documento" onkeypress="return SoloNumeros(event)" class="form-control">
+				<input type="text" name="func_documento" id="func_documento" onkeypress="return SoloNumeros(event)" class="form-control" disabled>
 				<span class="input-group-btn">
 					<button type="button" class="btn btn-primary" id="buscador"><i class="fa fa-search" aria-hidden="true"></i></button>
 				</span>
@@ -39,27 +36,25 @@
 		</div>
 		<div class="form-group">
 			{!!Form::label('Nombres (*)')!!}
-			{!!Form::text('func_nombres',null,['class'=>'form-control', 'required', 'maxlength'=>'100', 'onkeypress'=>"return soloLetras(event)"])!!}
+			{!!Form::text('func_nombres',null,['class'=>'form-control', 'required', 'maxlength'=>'100', 'onkeypress'=>"return soloLetras(event)", 'disabled'=>'true'])!!}
 		</div>
 		<div class="form-group">
 			{!!Form::label('Apellidos (*)')!!}
-			{!!Form::text('func_apellidos',null,['class'=>'form-control', 'required', 'maxlength'=>'100', 'onkeypress'=>"return soloLetras(event)"])!!}
+			{!!Form::text('func_apellidos',null,['class'=>'form-control', 'required', 'maxlength'=>'100', 'onkeypress'=>"return soloLetras(event)", 'disabled'=>'true'])!!}
 		</div>
 		<div class="form-group">
 			{!!Form::label('Oficina (*)')!!}
-			{!!Form::text('mod_id',null,['class'=>'form-control', 'required', 'id'=>'Oficina', 'style'=>'width:100%'])!!}
+			{!!Form::text('mod_id',null,['class'=>'form-control', 'required', 'id'=>'Oficina', 'style'=>'width:100%', 'disabled'=>'true'])!!}
 		</div>
 		<div class="form-group">
 			{!!Form::label('Cod. tarjeta RFID (*)')!!}
-			{!!Form::text('func_tarjeta',null,['class'=>'form-control', 'required', 'maxlength'=>'8','onkeypress'=>"return solocodigos(event)"])!!}
+			{!!Form::text('func_tarjeta',null,['class'=>'form-control', 'required', 'maxlength'=>'8','onkeypress'=>"return solocodigos(event)", 'disabled'=>'true'])!!}
 		</div>
 		<div class='text-right'>
 			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 			<input type="submit" class="btn btn-success" value="Guardar">
 		</div>
 		{!!Form::close()!!}
-
-
 	</div>
 </div>
 
@@ -95,7 +90,8 @@ $(function(){
 		optionLabel: {
 			tdoc_nombre: "Seleccione...",
 			tdoc_id: ""
-		}
+		},
+		select: onSelect
 	});
 
 	$("#func_documento").kendoAutoComplete({
@@ -130,6 +126,8 @@ $(function(){
 	});
 
 
+
+
 	$("form").submit(function(event){
 		$.ajax({
 			url: this.action,
@@ -150,9 +148,13 @@ $(function(){
 			}
 		});
 		return false;
-	})
+	});
 
-
+	$("#func_documento").keydown(function(event){
+		if(event.keyCode == 13){
+			buscar();
+		}
+	});
 });
 
 function oneError(result){
@@ -176,6 +178,7 @@ function onSuccess(result){
 
 
 function buscar(){
+	$('input').attr("disabled",false);
 	var datos = {'tdocumento' : $("#tdocumento").val(), "documento" : $("#func_documento").val()};
 	
 	$.post("{!!route('buscarinvitado')!!}",datos,function(result){
@@ -187,6 +190,18 @@ function buscar(){
 }
 
 
+
+	function onSelect(e) {
+		var dataItem = this.dataItem(e.item);
+		//console.log("event :: select (" + dataItem.tdoc_nombre + " : " + dataItem.tdoc_id + ")" );
+		if(dataItem.tdoc_id != ""){
+			$("#func_documento").attr("disabled", false);
+		}else{
+			$('input').attr("disabled", true);
+			$("form").resetear();
+		}
+		
+	};
 
 
 
